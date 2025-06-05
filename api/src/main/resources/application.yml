@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: api
+  profiles:
+    active: local
+    group:
+      local: local-config, local-db
+server:
+  port: 8088
+
+
