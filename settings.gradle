@@ -5,3 +5,4 @@ plugins {
 rootProject.name = 'market-reservation'
 
 include(':authentication')
+include(':api')
