@@ -16,3 +16,20 @@ spring:
       port: 6379
       connect-timeout: 3000
       timeout: 3000
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    default-schema: common
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 1000
+        hibernate.transaction.jta.platform: org.hibernate.service.jta.JtaPlatform
