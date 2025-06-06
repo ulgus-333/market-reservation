@@ -1,7 +1,7 @@
 -- create schema
-CREATE SCHEMA IF NOT EXISTS user;
-CREATE SCHEMA IF NOT EXISTS market;
-CREATE SCHEMA IF NOT EXISTS reservation;
+CREATE SCHEMA user;
+CREATE SCHEMA market;
+CREATE SCHEMA reservation;
 
 -- create user
 CREATE TABLE user.role (
@@ -117,5 +117,5 @@ CREATE TABLE market.market (
     reg_datetime datetime not null default current_timestamp COMMENT '등록일시',
     reg_idx int not null COMMENT '등록자 식별번호',
     mod_datetime datetime COMMENT '수정일시',
-    mod_idx intx COMMENT '수정자 식별번호'
+    mod_idx int COMMENT '수정자 식별번호'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='상점 기본정보';
