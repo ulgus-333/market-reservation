@@ -11,4 +11,21 @@ spring:
 server:
   port: 8088
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    groups-order: asc
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+    doc-expansion: none
+  cache:
+    disabled: true
+  model-and-view-allowed: true
 
