@@ -5,6 +5,9 @@ spring:
     active: local
     group:
       local: local-config, local-db
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server:
   port: 8088
 

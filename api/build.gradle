@@ -16,6 +16,8 @@ dependencies {
     implementation 'org.flywaydb:flyway-mysql'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 
     // utility
     compileOnly 'org.projectlombok:lombok'
@@ -25,6 +27,26 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+//    options.compilerArgs << "-parameters"
+}
+
+clean.doLast {
+    file(querydslDir).deleteDir()
+}
+
+clean {
+    delete file('src/main/generated')
+    delete file(querydslDir)
 }
 
 tasks.named('test') {
