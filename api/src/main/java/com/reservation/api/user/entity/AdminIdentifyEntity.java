@@ -1,4 +1,4 @@
-package com.reservation.api.user.enitty;
+package com.reservation.api.user.entity;
 
 import com.reservation.api.common.entity.meta.BaseDatetimeEntity;
 import com.reservation.api.market.entity.MarketEntity;

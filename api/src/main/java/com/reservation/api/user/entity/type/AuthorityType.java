@@ -1,4 +1,4 @@
-package com.reservation.api.user.enitty.type;
+package com.reservation.api.user.entity.type;
 
 public enum AuthorityType {
     USER,

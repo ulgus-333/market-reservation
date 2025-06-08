@@ -1,4 +1,4 @@
-package com.reservation.api.user.enitty.type;
+package com.reservation.api.user.entity.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -29,3 +29,5 @@ springdoc:
     disabled: true
   model-and-view-allowed: true
 
+crypto:
+  secret-key: CGZH43ikdJ18IN1OeJfRlg==

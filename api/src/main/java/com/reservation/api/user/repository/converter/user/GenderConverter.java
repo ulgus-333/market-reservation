@@ -1,6 +1,6 @@
-package com.reservation.api.repository.converter.user;
+package com.reservation.api.user.repository.converter.user;
 
-import com.reservation.api.user.enitty.type.GenderType;
+import com.reservation.api.user.entity.type.GenderType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

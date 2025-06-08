@@ -1,10 +1,10 @@
-package com.reservation.api.user.enitty;
+package com.reservation.api.user.entity;
 
 import com.reservation.api.common.entity.meta.BaseDatetimeEntity;
-import com.reservation.api.repository.converter.user.GenderConverter;
-import com.reservation.api.repository.converter.user.RegisterTypeConverter;
-import com.reservation.api.user.enitty.type.GenderType;
-import com.reservation.api.user.enitty.type.RegisterType;
+import com.reservation.api.user.repository.converter.user.GenderConverter;
+import com.reservation.api.user.repository.converter.user.RegisterTypeConverter;
+import com.reservation.api.user.entity.type.GenderType;
+import com.reservation.api.user.entity.type.RegisterType;
 import com.reservation.api.utils.DatabaseUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
