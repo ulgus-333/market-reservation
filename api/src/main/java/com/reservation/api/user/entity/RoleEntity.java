@@ -1,6 +1,6 @@
-package com.reservation.api.user.enitty;
+package com.reservation.api.user.entity;
 
-import com.reservation.api.user.enitty.type.AuthorityType;
+import com.reservation.api.user.entity.type.AuthorityType;
 import com.reservation.api.utils.DatabaseUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
