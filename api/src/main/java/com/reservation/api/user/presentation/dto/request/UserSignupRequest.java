@@ -39,6 +39,8 @@ public class UserSignupRequest {
     private final String ci;
     @NotBlank
     private final String di;
+
+    @Schema(hidden = true)
     @NotNull
     private final RegisterType registerType = RegisterType.NATIVE;
 
