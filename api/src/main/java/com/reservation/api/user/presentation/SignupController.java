@@ -27,7 +27,7 @@ public class SignupController {
     @Operation(summary = "앱 유저 회원가입", description = "앱 유저의 요청으로 회원가입할 수 있는 기능 제공")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "405", description = "기가입 유저 판단")
+            @ApiResponse(responseCode = "409", description = "기가입 유저 판단(연락처, 이메일, 닉네임)")
     })
     @PostMapping("/signup")
     @RequireRole(Authority.ALL)
