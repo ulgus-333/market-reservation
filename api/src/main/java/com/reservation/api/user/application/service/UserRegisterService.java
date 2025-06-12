@@ -4,6 +4,7 @@ import com.reservation.api.config.support.redis.RedisExecutor;
 import com.reservation.api.config.support.redis.RedisKey;
 import com.reservation.api.error.exception.BusinessException;
 import com.reservation.api.error.type.BadRequestType;
+import com.reservation.api.error.type.ConflictType;
 import com.reservation.api.user.entity.RoleEntity;
 import com.reservation.api.user.entity.UserIdentifyEntity;
 import com.reservation.api.user.entity.type.AuthorityType;
@@ -39,17 +40,14 @@ public class UserRegisterService {
     }
 
     private void checkExistsUserUniqueValue(UserIdentifyEntity userIdentify) {
-        if (userIdentifyEntityRepository.existsByName(userIdentify.getName())) {
-            throw new BusinessException(BadRequestType.USER_NAME_ALREADY_EXISTS);
-        }
         if (userIdentifyEntityRepository.existsByPhone(userIdentify.getPhone())) {
-            throw new BusinessException(BadRequestType.USER_PHONE_ALREADY_EXISTS);
+            throw new BusinessException(ConflictType.USER_PHONE_ALREADY_EXISTS);
         }
         if (userIdentifyEntityRepository.existsByEmail(userIdentify.getEmail())) {
-            throw new BusinessException(BadRequestType.USER_EMAIL_ALREADY_EXISTS);
+            throw new BusinessException(ConflictType.USER_EMAIL_ALREADY_EXISTS);
         }
         if (userIdentifyEntityRepository.existsByNickname(userIdentify.getNickname())) {
-            throw new BusinessException(BadRequestType.USER_NICKNAME_ALREADY_EXISTS);
+            throw new BusinessException(ConflictType.USER_NICKNAME_ALREADY_EXISTS);
         }
     }
 }
