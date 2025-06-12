@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "유저 유효성 검증", description = "아이디 중복검사 등 유효성 검증 기능 제공")
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user/check")
 @RestController
 public class CheckController {
     private final UserCheckService userCheckService;

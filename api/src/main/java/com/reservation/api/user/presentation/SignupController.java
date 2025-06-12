@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "회원가입", description = "일반 유저의 회원가입 및 상점 어드민 / 백오피스 어드민의 계정 등록 기능 제공")
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user/signup")
 @RestController
 public class SignupController {
 
@@ -29,7 +29,7 @@ public class SignupController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "409", description = "기가입 유저 판단(연락처, 이메일, 닉네임)")
     })
-    @PostMapping("/signup")
+    @PostMapping("/app")
     @RequireRole(Authority.ALL)
     public ResponseEntity<Void> signup(@RequestBody @Valid UserSignupRequest request) {
 
