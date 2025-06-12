@@ -9,6 +9,7 @@ import java.time.Duration;
 @Getter
 public enum RedisKey {
     USER_AUTHORITY("AUTHORITIES", 1, Duration.ofDays(1L)),
+    USER_FIND_ID_KEY("FIND_ID", 1, Duration.ofMinutes(5)),
     ;
 
     private static final String KEY_CHAIN = "::";
