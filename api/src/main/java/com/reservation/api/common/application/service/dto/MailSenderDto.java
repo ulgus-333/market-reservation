@@ -14,4 +14,12 @@ public record MailSenderDto(
                 Map.of("verificationCode", verificationCode)
         );
     }
+
+    public static MailSenderDto pwReset(String targetEmail, String verificationCode) {
+        return new MailSenderDto(
+                targetEmail,
+                MailViewType.RESET_PW,
+                Map.of("verificationCode", verificationCode)
+        );
+    }
 }
