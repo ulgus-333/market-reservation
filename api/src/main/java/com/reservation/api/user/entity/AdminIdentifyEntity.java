@@ -40,18 +40,15 @@ public class AdminIdentifyEntity extends BaseDatetimeEntity {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, length = 50)
-    private String email;
-
     public static AdminIdentifyEntity create(RoleEntity role, String id, String password, MarketEntity market, DepartmentEntity department, String position, String identificationNumber, String name, String email, LocalDateTime regDatetime) {
         return new AdminIdentifyEntity(role, id, password, market, department, position, identificationNumber, name, email, regDatetime);
     }
 
     private AdminIdentifyEntity(RoleEntity role, String id, String password, MarketEntity market, DepartmentEntity department, String position, String identificationNumber, String name, String email, LocalDateTime regDatetime) {
-        this(null, UserEntity.create(role, id, password, regDatetime), market, department, position, identificationNumber, name, email, regDatetime);
+        this(null, UserEntity.create(role, id, password, email, regDatetime), market, department, position, identificationNumber, name, regDatetime);
     }
 
-    private AdminIdentifyEntity(Long userIdx, UserEntity user, MarketEntity market, DepartmentEntity department, String position, String identificationNumber, String name, String email, LocalDateTime regDatetime) {
+    private AdminIdentifyEntity(Long userIdx, UserEntity user, MarketEntity market, DepartmentEntity department, String position, String identificationNumber, String name, LocalDateTime regDatetime) {
         super(regDatetime);
         this.userIdx = userIdx;
         this.user = user;
@@ -60,6 +57,5 @@ public class AdminIdentifyEntity extends BaseDatetimeEntity {
         this.position = position;
         this.identificationNumber = identificationNumber;
         this.name = name;
-        this.email = email;
     }
 }

@@ -28,23 +28,27 @@ public class UserEntity extends BaseDatetimeEntity {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @Column(nullable = false, length = 50, unique = true)
+    private String email;
+
     @Column(nullable = false)
     private Boolean isActive;
 
-    public static UserEntity create(RoleEntity role, String id, String password, LocalDateTime regDatetime) {
-        return new UserEntity(role, id, password, true, regDatetime);
+    public static UserEntity create(RoleEntity role, String id, String password, String email, LocalDateTime regDatetime) {
+        return new UserEntity(role, id, password, email, true, regDatetime);
     }
 
-    private UserEntity(RoleEntity role, String id, String password, Boolean isActive, LocalDateTime regDatetime) {
-        this(null, role, id, password, isActive, regDatetime);
+    private UserEntity(RoleEntity role, String id, String password, String email, Boolean isActive, LocalDateTime regDatetime) {
+        this(null, role, id, password, email, isActive, regDatetime);
     }
 
-    private UserEntity(Long idx, RoleEntity role, String id, String password, Boolean isActive, LocalDateTime regDatetime) {
+    private UserEntity(Long idx, RoleEntity role, String id, String password, String email, Boolean isActive, LocalDateTime regDatetime) {
         super(regDatetime);
         this.idx = idx;
         this.role = role;
         this.id = id;
         this.password = password;
+        this.email = email;
         this.isActive = isActive;
     }
 }
