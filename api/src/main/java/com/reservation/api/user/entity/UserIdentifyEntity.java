@@ -1,10 +1,10 @@
 package com.reservation.api.user.entity;
 
 import com.reservation.api.common.entity.meta.BaseDatetimeEntity;
-import com.reservation.api.user.repository.converter.user.GenderConverter;
-import com.reservation.api.user.repository.converter.user.RegisterTypeConverter;
 import com.reservation.api.user.entity.type.GenderType;
 import com.reservation.api.user.entity.type.RegisterType;
+import com.reservation.api.user.repository.converter.user.GenderConverter;
+import com.reservation.api.user.repository.converter.user.RegisterTypeConverter;
 import com.reservation.api.utils.DatabaseUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,9 +32,6 @@ public class UserIdentifyEntity extends BaseDatetimeEntity {
     @Column(nullable = false, length = 50)
     private String phone;
 
-    @Column(length = 50)
-    private String email;
-
     @Column(nullable = false, length = 50)
     private String nickname;
 
@@ -60,21 +57,24 @@ public class UserIdentifyEntity extends BaseDatetimeEntity {
     }
 
     private UserIdentifyEntity(RoleEntity role, String id, String password, String name, String phone, String email, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
-        this(null, UserEntity.create(role, id, password, regDatetime), name, phone, email, nickname, gender, birth, ci, di, registerType, regDatetime);
+        this(null, UserEntity.create(role, id, password, email, regDatetime), name, phone, nickname, gender, birth, ci, di, registerType, regDatetime);
     }
 
-    private UserIdentifyEntity(Long userIdx, UserEntity user, String name, String phone, String email, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
+    private UserIdentifyEntity(Long userIdx, UserEntity user, String name, String phone, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
         super(regDatetime);
         this.userIdx = userIdx;
         this.user = user;
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.nickname = nickname;
         this.gender = gender;
         this.birth = birth;
         this.ci = ci;
         this.di = di;
         this.registerType = registerType;
+    }
+
+    public String email() {
+        return user.getEmail();
     }
 }
