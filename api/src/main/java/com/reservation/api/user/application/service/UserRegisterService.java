@@ -3,13 +3,13 @@ package com.reservation.api.user.application.service;
 import com.reservation.api.config.support.redis.RedisExecutor;
 import com.reservation.api.config.support.redis.RedisKey;
 import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.BadRequestType;
 import com.reservation.api.error.type.ConflictType;
 import com.reservation.api.user.entity.RoleEntity;
 import com.reservation.api.user.entity.UserIdentifyEntity;
 import com.reservation.api.user.entity.type.AuthorityType;
 import com.reservation.api.user.presentation.dto.request.UserSignupRequest;
 import com.reservation.api.user.repository.RoleEntityRepository;
+import com.reservation.api.user.repository.UserEntityRepository;
 import com.reservation.api.user.repository.UserIdentifyEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserRegisterService {
+    private final UserEntityRepository userEntityRepository;
     private final UserIdentifyEntityRepository userIdentifyEntityRepository;
     private final RoleEntityRepository roleEntityRepository;
     private final RedisExecutor redisExecutor;
@@ -43,7 +44,7 @@ public class UserRegisterService {
         if (userIdentifyEntityRepository.existsByPhone(userIdentify.getPhone())) {
             throw new BusinessException(ConflictType.USER_PHONE_ALREADY_EXISTS);
         }
-        if (userIdentifyEntityRepository.existsByEmail(userIdentify.getEmail())) {
+        if (userEntityRepository.existsByEmail(userIdentify.email())) {
             throw new BusinessException(ConflictType.USER_EMAIL_ALREADY_EXISTS);
         }
         if (userIdentifyEntityRepository.existsByNickname(userIdentify.getNickname())) {
