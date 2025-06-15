@@ -1,10 +1,17 @@
 package com.reservation.api.user.application.dto;
 
-public record IdVerificationDto(
-        String id,
-        String token
-) {
-    public boolean equalsToken(String verificationCode) {
-        return this.token.equals(verificationCode);
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+
+@Getter
+public class IdVerificationDto extends VerificationDto {
+    private final String id;
+
+    @JsonCreator
+    public IdVerificationDto(@JsonProperty("id") String id,
+                             @JsonProperty("token") String token) {
+        super(token);
+        this.id = id;
     }
 }

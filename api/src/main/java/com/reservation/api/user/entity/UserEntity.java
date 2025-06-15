@@ -1,6 +1,7 @@
 package com.reservation.api.user.entity;
 
 import com.reservation.api.common.entity.meta.BaseDatetimeEntity;
+import com.reservation.api.config.support.crypto.CryptoExecutor;
 import com.reservation.api.utils.DatabaseUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -50,5 +51,10 @@ public class UserEntity extends BaseDatetimeEntity {
         this.password = password;
         this.email = email;
         this.isActive = isActive;
+    }
+
+    public void updatePassword(String initPassword, LocalDateTime modDatetime) {
+        this.password = CryptoExecutor.encryptPassword(initPassword);
+        super.updateModDatetime(modDatetime);
     }
 }
