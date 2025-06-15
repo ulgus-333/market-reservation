@@ -78,6 +78,10 @@ public class RedisExecutor {
         }
     }
 
+    public void deleteKey(String key) {
+        redisTemplate.delete(key);
+    }
+
     private void printExceptionLog(String message, Exception e) {
         log.error("{}: {}", message, e.getMessage());
     }

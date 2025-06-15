@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @Tag(name = "유저 유효성 검증", description = "아이디 중복검사 등 유효성 검증 기능 제공")
 @Validated
 @RequiredArgsConstructor
@@ -47,5 +49,22 @@ public class CheckController {
     public ResponseEntity<GenericResponse<String>> verificationCodeForFindId(@ModelAttribute @Valid VerificationRequest request) {
 
         return ResponseEntity.ok(userCheckService.verificationCodeForFindId(request));
+    }
+
+    @Operation(summary = "비밀번호 초기화 인증번호 검증", description = "비밀번호 초리화 통해 발급된 인증번호를 검증하는 기능 제공")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "인증번호 검증 실패"),
+            @ApiResponse(responseCode = "404", description = "인증번호 존재하지 않음(유효시간 만료)"),
+            @ApiResponse(responseCode = "404", description = "비밀번호 초기화 대상 유저가 존재하지 않을 경우")
+    })
+    @PostMapping("/verification/code/password")
+    @RequireRole(Authority.ALL)
+    public ResponseEntity<Void> verificationCodeForResetPassword(@ModelAttribute @Valid VerificationRequest request) {
+
+        LocalDateTime requestDatetime = LocalDateTime.now();
+        userCheckService.verificationCodeForResetPassword(request, requestDatetime);
+
+        return ResponseEntity.ok().build();
     }
 }

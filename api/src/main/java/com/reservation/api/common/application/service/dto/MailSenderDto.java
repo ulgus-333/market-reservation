@@ -22,4 +22,12 @@ public record MailSenderDto(
                 Map.of("verificationCode", verificationCode)
         );
     }
+
+    public static MailSenderDto pwInit(String targetEmail, String initPassword) {
+        return new MailSenderDto(
+                targetEmail,
+                MailViewType.INIT_PW,
+                Map.of("initPassword", initPassword)
+        );
+    }
 }

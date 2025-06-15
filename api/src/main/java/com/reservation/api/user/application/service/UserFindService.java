@@ -36,7 +36,7 @@ public class UserFindService {
         IdVerificationDto idVerificationDto = new IdVerificationDto(user.getId(), KeyGenerators.string().generateKey());
         redisExecutor.setValue(RedisKey.USER_FIND_ID_KEY.key(uuid), idVerificationDto, RedisKey.USER_FIND_ID_KEY.getDuration());
 
-        mailSenderService.sendEmail(MailSenderDto.idSearch(user.getEmail(), idVerificationDto.token()));
+        mailSenderService.sendEmail(MailSenderDto.idSearch(user.getEmail(), idVerificationDto.getToken()));
 
         return new GenericResponse<>(uuid);
     }
@@ -46,10 +46,10 @@ public class UserFindService {
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_USER_DATA));
 
         String uuid = UUID.randomUUID().toString();
-        PasswordVerificationDto verificationDto = new PasswordVerificationDto(KeyGenerators.string().generateKey());
+        PasswordVerificationDto verificationDto = new PasswordVerificationDto(user.getIdx(), KeyGenerators.string().generateKey());
         redisExecutor.setValue(RedisKey.USER_RESET_PASSWORD_KEY.key(uuid), verificationDto, RedisKey.USER_RESET_PASSWORD_KEY.getDuration());
 
-        mailSenderService.sendEmail(MailSenderDto.pwReset(user.getEmail(), verificationDto.token()));
+        mailSenderService.sendEmail(MailSenderDto.pwReset(user.getEmail(), verificationDto.getToken()));
 
         return new GenericResponse<>(uuid);
     }
