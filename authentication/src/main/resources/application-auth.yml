@@ -1,0 +1,7 @@
+jwt:
+  algorithm:
+    secret: uNl3rGr/eNfwVVw+CzE7y5UTDcWBVaL3rMbCDiA19Cw=
+  token:
+    validity:
+      access: 15m
+      refresh: 7d

@@ -31,4 +31,8 @@ public enum Authority {
     public String getRole() {
         return "ROLE_" + this.name().toLowerCase();
     }
+
+    public boolean isAdmin() {
+        return this == ADMIN;
+    }
 }

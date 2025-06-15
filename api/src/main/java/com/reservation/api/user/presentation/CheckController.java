@@ -30,7 +30,7 @@ public class CheckController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "409", description = "아이디 중복됨")
     })
-    @GetMapping("/check/duplicated/id")
+    @GetMapping("/duplicated/id")
     @RequireRole(Authority.ALL)
     public ResponseEntity<GenericResponse<Boolean>> checkDuplicatedId(@RequestParam("id") @NotBlank String id) {
 
