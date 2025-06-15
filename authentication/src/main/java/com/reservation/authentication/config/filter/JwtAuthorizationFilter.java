@@ -19,7 +19,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (token.startsWith("Bearer ")) {
+        if (token != null && token.startsWith("Bearer ")) {
             PrincipalContent principal = PrincipalContent.from(JWT.decode(token.substring(7)));
 
             if (SecurityContextHolder.getContext().getAuthentication() == null && principal.valid()) {
