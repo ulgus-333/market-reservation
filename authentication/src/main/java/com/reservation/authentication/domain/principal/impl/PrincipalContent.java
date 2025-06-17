@@ -6,7 +6,6 @@ import com.reservation.authentication.domain.type.Authority;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
 
 @Getter
@@ -18,7 +17,7 @@ public class PrincipalContent {
     public static PrincipalContent from(DecodedJWT jwt) {
         return PrincipalContent.builder()
                 .authority(getClaimByName(jwt, "authority"))
-                .userIdx(getClaimByName(jwt, "userIdx"))
+                .userIdx(jwt.getSubject())
                 .marketIdx(getClaimByName(jwt, "marketIdx"))
                 .build();
     }

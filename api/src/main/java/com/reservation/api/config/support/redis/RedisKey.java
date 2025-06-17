@@ -8,6 +8,14 @@ import java.time.Duration;
 @RequiredArgsConstructor
 @Getter
 public enum RedisKey {
+    /**
+     * 토큰
+     */
+    TOKEN_REFRESH("REFRESH", 1, Duration.ofDays(7)),
+
+    /**
+     * 유저 정보
+     */
     USER_AUTHORITY("AUTHORITIES", 1, Duration.ofDays(1L)),
     USER_FIND_ID_KEY("FIND_ID", 1, Duration.ofMinutes(5)),
     USER_RESET_PASSWORD_KEY("RESET_PASSWORD", 1, Duration.ofMinutes(5)),
