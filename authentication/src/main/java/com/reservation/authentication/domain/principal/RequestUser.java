@@ -4,12 +4,13 @@ import com.reservation.authentication.domain.principal.impl.AdminRequestUser;
 import com.reservation.authentication.domain.principal.impl.AppRequestUser;
 import com.reservation.authentication.domain.principal.impl.ConsoleRequestUser;
 import com.reservation.authentication.domain.principal.impl.PrincipalContent;
+import com.reservation.authentication.domain.type.Authority;
 
 import java.util.Map;
 
 public interface RequestUser extends SecurityPrincipal {
     String getIdx();
-
+    Authority getAuthority();
     Map<String, String> getHeaders();
 
     static RequestUser from(PrincipalContent principalContent) {
