@@ -1,9 +1,12 @@
 package com.reservation.api.user.presentation;
 
 import com.reservation.api.user.application.service.UserCheckService;
+import com.reservation.api.user.presentation.dto.request.PasswordCheckRequest;
 import com.reservation.api.user.presentation.dto.request.VerificationRequest;
 import com.reservation.api.user.presentation.dto.response.GenericResponse;
+import com.reservation.authentication.domain.annotation.Authenticated;
 import com.reservation.authentication.domain.annotation.RequireRole;
+import com.reservation.authentication.domain.principal.RequestUser;
 import com.reservation.authentication.domain.type.Authority;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,5 +69,19 @@ public class CheckController {
         userCheckService.verificationCodeForResetPassword(request, requestDatetime);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "비밀번호 확인", description = "내정보 조회 및 회원 탈퇴 등 인증 과정에서 비밀번호 검증 기능 제공")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "비밀번호 검증 실패"),
+            @ApiResponse(responseCode = "404", description = "유저정보 찾을 수 없음")
+    })
+    @PostMapping("/password")
+    @RequireRole({Authority.USER, Authority.ADMIN, Authority.CONSOLE})
+    public ResponseEntity<GenericResponse<Boolean>> checkUserPassword(@Authenticated RequestUser requestUser,
+                                                                      @RequestBody @Valid PasswordCheckRequest request) {
+
+        return ResponseEntity.ok(userCheckService.checkPassword(requestUser, request));
     }
 }

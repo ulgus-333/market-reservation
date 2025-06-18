@@ -2,6 +2,7 @@ package com.reservation.api.user.application.service;
 
 import com.reservation.api.common.application.service.MailSenderService;
 import com.reservation.api.common.application.service.dto.MailSenderDto;
+import com.reservation.api.config.support.crypto.CryptoExecutor;
 import com.reservation.api.config.support.redis.RedisExecutor;
 import com.reservation.api.config.support.redis.RedisKey;
 import com.reservation.api.error.exception.BusinessException;
@@ -10,9 +11,11 @@ import com.reservation.api.error.type.NotFoundType;
 import com.reservation.api.user.application.dto.IdVerificationDto;
 import com.reservation.api.user.application.dto.PasswordVerificationDto;
 import com.reservation.api.user.entity.UserEntity;
+import com.reservation.api.user.presentation.dto.request.PasswordCheckRequest;
 import com.reservation.api.user.presentation.dto.request.VerificationRequest;
 import com.reservation.api.user.presentation.dto.response.GenericResponse;
 import com.reservation.api.user.repository.UserEntityRepository;
+import com.reservation.authentication.domain.principal.RequestUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.stereotype.Service;
@@ -65,5 +68,12 @@ public class UserCheckService {
         mailSenderService.sendEmail(MailSenderDto.pwInit(targetUser.getEmail(), initPassword));
 
         redisExecutor.deleteKey(request.redisKey(RedisKey.USER_RESET_PASSWORD_KEY));
+    }
+
+    public GenericResponse<Boolean> checkPassword(RequestUser requestUser, PasswordCheckRequest request) {
+        UserEntity userEntity = userEntityRepository.findById(requestUser.getIdxAsLong())
+                .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_USER_DATA));
+
+        return GenericResponse.of(CryptoExecutor.verifyPassword(request.password(), userEntity.getPassword()));
     }
 }
