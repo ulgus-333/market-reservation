@@ -21,4 +21,8 @@ public interface RequestUser extends SecurityPrincipal {
             default -> throw new IllegalStateException("Unexpected value: " + principalContent.getAuthority());
         };
     }
+
+    default Long getIdxAsLong() {
+        return Long.parseLong(getIdx());
+    }
 }

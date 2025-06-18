@@ -4,6 +4,7 @@ import com.reservation.api.user.application.service.UserAggregateService;
 import com.reservation.api.user.presentation.dto.response.UserDetailResponse;
 import com.reservation.authentication.domain.annotation.Authenticated;
 import com.reservation.authentication.domain.annotation.RequireRole;
+import com.reservation.authentication.domain.principal.RequestUser;
 import com.reservation.authentication.domain.principal.impl.AppRequestUser;
 import com.reservation.authentication.domain.type.Authority;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +36,19 @@ public class UserController {
     public ResponseEntity<UserDetailResponse> fetchUserDetails(@Authenticated AppRequestUser requestUser) {
 
         return ResponseEntity.ok(userAggregateService.fetchUserDetails(requestUser));
+    }
+
+    @Operation(summary = "유저 탈퇴", description = "일반 유저의 탈퇴 기능 제공")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "404", description = "유저 정보 없음")
+    })
+    @DeleteMapping("/withdrawal")
+    @RequireRole({Authority.USER, Authority.ADMIN, Authority.CONSOLE})
+    public ResponseEntity<Void> withdrawal(@Authenticated RequestUser requestUser) {
+
+        userAggregateService.withdrawalUser(requestUser);
+
+        return ResponseEntity.ok().build();
     }
 }
