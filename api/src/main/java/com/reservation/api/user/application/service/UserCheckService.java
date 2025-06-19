@@ -7,6 +7,7 @@ import com.reservation.api.config.support.redis.RedisExecutor;
 import com.reservation.api.config.support.redis.RedisKey;
 import com.reservation.api.error.exception.BusinessException;
 import com.reservation.api.error.type.BadRequestType;
+import com.reservation.api.error.type.ConflictType;
 import com.reservation.api.error.type.NotFoundType;
 import com.reservation.api.user.application.dto.IdVerificationDto;
 import com.reservation.api.user.application.dto.PasswordVerificationDto;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -40,19 +42,20 @@ public class UserCheckService {
     }
 
     public GenericResponse<String> verificationCodeForFindId(VerificationRequest request) {
-        IdVerificationDto verificationDto = redisExecutor.findByKey(request.redisKey(RedisKey.USER_FIND_ID_KEY), IdVerificationDto.class)
+        IdVerificationDto verificationDto = redisExecutor.findByKey(request.redisKey(RedisKey.USER_FIND_ID), IdVerificationDto.class)
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_VERIFICATION_DATA));
 
         if (verificationDto.notEqualsToken(request.verificationCode())) {
             throw new BusinessException(BadRequestType.INVALID_VERIFICATION_CODE);
         }
 
+        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_FIND_ID));
         return GenericResponse.of(verificationDto.getId());
     }
 
     @Transactional
     public void verificationCodeForResetPassword(VerificationRequest request, LocalDateTime requestDatetime) {
-        PasswordVerificationDto verificationDto = redisExecutor.findByKey(request.redisKey(RedisKey.USER_RESET_PASSWORD_KEY), PasswordVerificationDto.class)
+        PasswordVerificationDto verificationDto = redisExecutor.findByKey(request.redisKey(RedisKey.USER_RESET_PASSWORD), PasswordVerificationDto.class)
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_VERIFICATION_DATA));
 
         if (verificationDto.notEqualsToken(request.verificationCode())) {
@@ -67,7 +70,29 @@ public class UserCheckService {
 
         mailSenderService.sendEmail(MailSenderDto.pwInit(targetUser.getEmail(), initPassword));
 
-        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_RESET_PASSWORD_KEY));
+        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_RESET_PASSWORD));
+    }
+
+    public GenericResponse<String> checkEmailAndSendVerificationCode(String email) {
+        if (userEntityRepository.existsByEmail(email)) {
+            throw new BusinessException(ConflictType.USER_EMAIL_ALREADY_EXISTS);
+        }
+
+        String verificationCode = KeyGenerators.string().generateKey();
+        mailSenderService.sendEmail(MailSenderDto.verifyEmail(email, verificationCode));
+
+        String uuid = UUID.randomUUID().toString();
+        redisExecutor.setValue(RedisKey.USER_VERIFY_EMAIL.key(uuid), verificationCode, RedisKey.USER_VERIFY_EMAIL.getDuration());
+
+        return GenericResponse.of(uuid);
+    }
+
+    public GenericResponse<Boolean> verificationCodeForVerifyEmail(VerificationRequest request) {
+        String verificationCode = redisExecutor.findByKey(request.redisKey(RedisKey.USER_VERIFY_EMAIL))
+                .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_VERIFICATION_DATA));
+
+        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_VERIFY_EMAIL));
+        return GenericResponse.of(verificationCode.equals(request.verificationCode()));
     }
 
     public GenericResponse<Boolean> checkPassword(RequestUser requestUser, PasswordCheckRequest request) {

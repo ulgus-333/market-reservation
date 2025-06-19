@@ -17,8 +17,9 @@ public enum RedisKey {
      * 유저 정보
      */
     USER_AUTHORITY("AUTHORITIES", 1, Duration.ofDays(1L)),
-    USER_FIND_ID_KEY("FIND_ID", 1, Duration.ofMinutes(5)),
-    USER_RESET_PASSWORD_KEY("RESET_PASSWORD", 1, Duration.ofMinutes(5)),
+    USER_FIND_ID("FIND_ID", 1, Duration.ofMinutes(5)),
+    USER_RESET_PASSWORD("RESET_PASSWORD", 1, Duration.ofMinutes(5)),
+    USER_VERIFY_EMAIL("VERIFY_EMAIL", 1, Duration.ofMinutes(5)),
     ;
 
     private static final String KEY_CHAIN = "::";

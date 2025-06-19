@@ -30,4 +30,12 @@ public record MailSenderDto(
                 Map.of("initPassword", initPassword)
         );
     }
+
+    public static MailSenderDto verifyEmail(String targetEmail, String verificationCode) {
+        return new MailSenderDto(
+                targetEmail,
+                MailViewType.VERIFY_EMAIL,
+                Map.of("verificationCode", verificationCode)
+        );
+    }
 }
