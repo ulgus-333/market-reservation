@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +70,32 @@ public class CheckController {
         userCheckService.verificationCodeForResetPassword(request, requestDatetime);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "이메일 인증 코드 발송", description = "회원가입 등의 과정에서 유저의 이메일을 인증하기 위한 인증 코드 발송 기능 제공")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "올바르지 않은 이메일 형식"),
+            @ApiResponse(responseCode = "409", description = "이미 등록된 이메일")
+    })
+    @GetMapping("/email")
+    @RequireRole(Authority.ALL)
+    public ResponseEntity<GenericResponse<String>> sendingEmailForVerificationEmail(@RequestParam @NotBlank @Email String email) {
+
+        return ResponseEntity.ok(userCheckService.checkEmailAndSendVerificationCode(email));
+    }
+
+
+    @Operation(summary = "에미일 인증", description = "인증번호 입력을 통한 이메일 인증 완료")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "404", description = "인증시간 만료")
+    })
+    @GetMapping("/verification/code/email")
+    @RequireRole(Authority.ALL)
+    public ResponseEntity<GenericResponse<Boolean>> verificationCodeForVerifyEmail(@ModelAttribute @Valid VerificationRequest request) {
+
+        return ResponseEntity.ok(userCheckService.verificationCodeForVerifyEmail(request));
     }
 
     @Operation(summary = "비밀번호 확인", description = "내정보 조회 및 회원 탈퇴 등 인증 과정에서 비밀번호 검증 기능 제공")

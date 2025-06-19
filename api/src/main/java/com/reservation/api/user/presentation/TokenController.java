@@ -34,7 +34,7 @@ public class TokenController {
     })
     @PostMapping("/app")
     @RequireRole(Authority.ALL)
-    public ResponseEntity<TokenResponse> signup(@RequestBody @Valid LoginRequest request) {
+    public ResponseEntity<TokenResponse> generateToken(@RequestBody @Valid LoginRequest request) {
 
         return ResponseEntity.ok(tokenService.generateAccessToken(request));
     }

@@ -34,7 +34,7 @@ public class UserFindService {
 
         String uuid = UUID.randomUUID().toString();
         IdVerificationDto idVerificationDto = new IdVerificationDto(user.getId(), KeyGenerators.string().generateKey());
-        redisExecutor.setValue(RedisKey.USER_FIND_ID_KEY.key(uuid), idVerificationDto, RedisKey.USER_FIND_ID_KEY.getDuration());
+        redisExecutor.setValue(RedisKey.USER_FIND_ID.key(uuid), idVerificationDto, RedisKey.USER_FIND_ID.getDuration());
 
         mailSenderService.sendEmail(MailSenderDto.idSearch(user.getEmail(), idVerificationDto.getToken()));
 
@@ -47,7 +47,7 @@ public class UserFindService {
 
         String uuid = UUID.randomUUID().toString();
         PasswordVerificationDto verificationDto = new PasswordVerificationDto(user.getIdx(), KeyGenerators.string().generateKey());
-        redisExecutor.setValue(RedisKey.USER_RESET_PASSWORD_KEY.key(uuid), verificationDto, RedisKey.USER_RESET_PASSWORD_KEY.getDuration());
+        redisExecutor.setValue(RedisKey.USER_RESET_PASSWORD.key(uuid), verificationDto, RedisKey.USER_RESET_PASSWORD.getDuration());
 
         mailSenderService.sendEmail(MailSenderDto.pwReset(user.getEmail(), verificationDto.getToken()));
 
