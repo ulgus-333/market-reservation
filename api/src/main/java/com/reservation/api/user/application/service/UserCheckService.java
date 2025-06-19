@@ -49,6 +49,7 @@ public class UserCheckService {
             throw new BusinessException(BadRequestType.INVALID_VERIFICATION_CODE);
         }
 
+        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_FIND_ID));
         return GenericResponse.of(verificationDto.getId());
     }
 
@@ -90,6 +91,7 @@ public class UserCheckService {
         String verificationCode = redisExecutor.findByKey(request.redisKey(RedisKey.USER_VERIFY_EMAIL))
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_VERIFICATION_DATA));
 
+        redisExecutor.deleteKey(request.redisKey(RedisKey.USER_VERIFY_EMAIL));
         return GenericResponse.of(verificationCode.equals(request.verificationCode()));
     }
 
