@@ -1,8 +1,8 @@
 package com.reservation.api.user.entity;
 
 import com.reservation.api.common.entity.meta.BaseDatetimeEntity;
-import com.reservation.api.config.support.crypto.CryptoExecutor;
 import com.reservation.api.utils.DatabaseUtils;
+import com.reservation.common.application.executor.CryptoExecutor;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

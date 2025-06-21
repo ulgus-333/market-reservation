@@ -1,0 +1,12 @@
+application:
+  properties:
+    crypto:
+      secret-key: CGZH43ikdJ18IN1OeJfRlg==
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      connect-timeout: 3000
+      timeout: 3000

@@ -4,6 +4,7 @@ import com.reservation.authentication.config.filter.JwtAuthorizationFilter;
 import com.reservation.authentication.domain.annotation.RequireRole;
 import com.reservation.authentication.domain.type.Authority;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.method.HandlerMethod;
@@ -26,15 +28,24 @@ import java.util.Map;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
+    private static final String[] SWAGGER_PATH = {"/api/docs/**", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**"};
+
     private final ApplicationContext applicationContext;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
+        http.sessionManagement((sessionManagement) ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
 
         http.authorizeHttpRequests(authorize -> {
             Map<RequestMappingInfo, HandlerMethod> handlerMethods =
                     applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
+
+            authorize
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                    .requestMatchers(SWAGGER_PATH).permitAll();
 
             for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
                 RequestMappingInfo mappingInfo = entry.getKey();

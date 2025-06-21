@@ -1,6 +1,8 @@
 package com.reservation.api.user.repository.converter.user;
 
 import com.reservation.api.user.entity.type.RegisterType;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
@@ -15,7 +17,7 @@ public class RegisterTypeConverter implements AttributeConverter<RegisterType, I
     @Override
     public Integer convertToDatabaseColumn(RegisterType registerType) {
         if (registerType == null) {
-            throw new RuntimeException("registerType cannot be null");
+            throw new BusinessException(BadRequestType.INVALID_USER_REGISTER_TYPE_VALUE);
         }
 
         return registerType.getCode();

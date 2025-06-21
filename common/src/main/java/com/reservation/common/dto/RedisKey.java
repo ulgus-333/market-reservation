@@ -1,0 +1,48 @@
+package com.reservation.common.dto;
+
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.InternalServerErrorType;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.time.Duration;
+
+@RequiredArgsConstructor
+@Getter
+public enum RedisKey {
+    /**
+     * 토큰
+     */
+    TOKEN_REFRESH("REFRESH", 1, Duration.ofDays(7)),
+
+    /**
+     * 유저 정보
+     */
+    USER_AUTHORITY("AUTHORITIES", 1, Duration.ofDays(1L)),
+    USER_FIND_ID("FIND_ID", 1, Duration.ofMinutes(5)),
+    USER_RESET_PASSWORD("RESET_PASSWORD", 1, Duration.ofMinutes(5)),
+    USER_VERIFY_EMAIL("VERIFY_EMAIL", 1, Duration.ofMinutes(5)),
+    ;
+
+    private static final String KEY_CHAIN = "::";
+
+    private final String baseKey;
+    private final int parameterLength;
+    private final Duration duration;
+
+    private boolean isSingleKey() {
+        return this.parameterLength == 0;
+    }
+
+    public String key(String... parameters) {
+        if (isSingleKey()) {
+            return baseKey;
+        }
+
+        if (parameters == null || parameters.length == 0 || parameters.length != parameterLength) {
+            throw new BusinessException(InternalServerErrorType.INVALID_REDIS_KEY_PARAMETERS);
+        }
+
+        return baseKey + KEY_CHAIN + String.join(KEY_CHAIN, parameters);
+    }
+}

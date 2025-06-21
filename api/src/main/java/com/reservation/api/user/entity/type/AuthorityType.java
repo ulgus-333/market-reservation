@@ -1,7 +1,7 @@
 package com.reservation.api.user.entity.type;
 
-import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.BadRequestType;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 

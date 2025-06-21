@@ -1,5 +1,7 @@
 package com.reservation.api.user.entity.type;
 
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +28,7 @@ public enum GenderType {
 
     public static GenderType findByCode(Integer code) {
         if (code == null) {
-            throw new RuntimeException("Invalid gender code");
+            throw new BusinessException(BadRequestType.INVALID_GENDER_TYPE_CODE);
         }
 
         return CODE_MAPPER.get(code);

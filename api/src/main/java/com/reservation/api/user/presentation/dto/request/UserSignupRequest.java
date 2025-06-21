@@ -1,11 +1,11 @@
 package com.reservation.api.user.presentation.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.reservation.api.config.support.crypto.CryptoExecutor;
 import com.reservation.api.user.entity.RoleEntity;
 import com.reservation.api.user.entity.UserIdentifyEntity;
 import com.reservation.api.user.entity.type.GenderType;
 import com.reservation.api.user.entity.type.RegisterType;
+import com.reservation.common.application.executor.CryptoExecutor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

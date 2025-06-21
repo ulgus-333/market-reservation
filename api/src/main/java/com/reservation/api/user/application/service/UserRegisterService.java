@@ -1,9 +1,9 @@
 package com.reservation.api.user.application.service;
 
-import com.reservation.api.config.support.redis.RedisExecutor;
-import com.reservation.api.config.support.redis.RedisKey;
-import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.ConflictType;
+import com.reservation.common.application.executor.RedisExecutor;
+import com.reservation.common.dto.RedisKey;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.ConflictType;
 import com.reservation.api.user.entity.RoleEntity;
 import com.reservation.api.user.entity.UserIdentifyEntity;
 import com.reservation.api.user.entity.type.AuthorityType;
