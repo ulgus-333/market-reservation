@@ -1,5 +1,7 @@
 package com.reservation.api.user.entity.type;
 
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -24,9 +26,9 @@ public enum RegisterType {
 
     private final Integer code;
 
-    public static final RegisterType findByCode(Integer code) {
+    public static RegisterType findByCode(Integer code) {
         if (code == null) {
-            throw new IllegalArgumentException("Code cannot be null");
+            throw new BusinessException(BadRequestType.INVALID_USER_REGISTER_TYPE_CODE);
         }
 
         return CODE_MAPPER.get(code);

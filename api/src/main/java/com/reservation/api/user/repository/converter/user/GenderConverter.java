@@ -1,6 +1,8 @@
 package com.reservation.api.user.repository.converter.user;
 
 import com.reservation.api.user.entity.type.GenderType;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
@@ -14,7 +16,7 @@ public class GenderConverter implements AttributeConverter<GenderType, Integer> 
     @Override
     public Integer convertToDatabaseColumn(GenderType genderType) {
         if (genderType == null) {
-            throw new RuntimeException("Gender type cannot be null");
+            throw new BusinessException(BadRequestType.INVALID_GENDER_TYPE_VALUE);
         }
         return genderType.getCode();
     }

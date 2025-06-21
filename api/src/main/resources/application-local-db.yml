@@ -10,12 +10,6 @@ spring:
       password: 1234
       minimum-idle: 1
       maximum-pool-size: 10
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      connect-timeout: 3000
-      timeout: 3000
   flyway:
     enabled: true
     baseline-on-migrate: true

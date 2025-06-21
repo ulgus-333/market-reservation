@@ -6,7 +6,7 @@ spring:
     group:
       local: local-config, local-db
   config:
-    import: 'classpath:/application-auth.yml'
+    import: 'classpath:/application-auth.yml, classpath:/application-common.yml'
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

@@ -1,7 +1,7 @@
 package com.reservation.api.user.presentation.dto.response;
 
-import com.reservation.api.config.support.crypto.CryptoExecutor;
 import com.reservation.api.user.entity.UserIdentifyEntity;
+import com.reservation.common.application.executor.CryptoExecutor;
 
 public record UserAdditionalDetailResponse (
         String name,

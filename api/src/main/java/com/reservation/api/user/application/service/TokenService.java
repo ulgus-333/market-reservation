@@ -1,10 +1,9 @@
 package com.reservation.api.user.application.service;
 
-import com.reservation.api.config.support.crypto.CryptoExecutor;
-import com.reservation.api.config.support.redis.RedisExecutor;
-import com.reservation.api.config.support.redis.RedisKey;
-import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.NotFoundType;
+import com.reservation.common.application.executor.RedisExecutor;
+import com.reservation.common.dto.RedisKey;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.NotFoundType;
 import com.reservation.api.user.entity.UserEntity;
 import com.reservation.api.user.presentation.dto.request.LoginRequest;
 import com.reservation.api.user.presentation.dto.response.GenericResponse;
@@ -13,6 +12,7 @@ import com.reservation.api.user.repository.UserEntityRepository;
 import com.reservation.authentication.config.support.JwtTokenProvider;
 import com.reservation.authentication.config.support.dto.TokenGeneratorDto;
 import com.reservation.authentication.domain.type.Authority;
+import com.reservation.common.application.executor.CryptoExecutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

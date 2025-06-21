@@ -2,8 +2,8 @@ package com.reservation.api.common.application.service;
 
 import com.reservation.api.common.application.service.dto.MailSenderDto;
 import com.reservation.api.config.properties.SmtpProperties;
-import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.InternalServerErrorType;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.InternalServerErrorType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

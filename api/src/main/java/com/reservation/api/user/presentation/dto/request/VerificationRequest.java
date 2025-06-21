@@ -1,6 +1,6 @@
 package com.reservation.api.user.presentation.dto.request;
 
-import com.reservation.api.config.support.redis.RedisKey;
+import com.reservation.common.dto.RedisKey;
 import jakarta.validation.constraints.NotBlank;
 
 public record VerificationRequest(

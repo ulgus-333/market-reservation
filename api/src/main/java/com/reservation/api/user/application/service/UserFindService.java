@@ -2,10 +2,10 @@ package com.reservation.api.user.application.service;
 
 import com.reservation.api.common.application.service.MailSenderService;
 import com.reservation.api.common.application.service.dto.MailSenderDto;
-import com.reservation.api.config.support.redis.RedisExecutor;
-import com.reservation.api.config.support.redis.RedisKey;
-import com.reservation.api.error.exception.BusinessException;
-import com.reservation.api.error.type.NotFoundType;
+import com.reservation.common.application.executor.RedisExecutor;
+import com.reservation.common.dto.RedisKey;
+import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.NotFoundType;
 import com.reservation.api.user.application.dto.IdVerificationDto;
 import com.reservation.api.user.application.dto.PasswordVerificationDto;
 import com.reservation.api.user.entity.UserEntity;
