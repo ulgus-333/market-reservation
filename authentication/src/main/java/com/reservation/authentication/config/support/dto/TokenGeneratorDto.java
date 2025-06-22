@@ -14,6 +14,14 @@ public record TokenGeneratorDto(
         return new TokenGeneratorDto(String.valueOf(userIdx), null, Authority.USER);
     }
 
+    public static TokenGeneratorDto adminUser(Long userIdx, Long marketIdx) {
+        return new TokenGeneratorDto(String.valueOf(userIdx), String.valueOf(marketIdx), Authority.ADMIN);
+    }
+
+    public static TokenGeneratorDto consoleUser(Long userIdx) {
+        return new TokenGeneratorDto(String.valueOf(userIdx), null, Authority.CONSOLE);
+    }
+
     public String jwtSubject() {
         return this.userIdx;
     }
