@@ -32,7 +32,7 @@ public class TokenController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "404", description = "유저 정보가 없는 경우")
     })
-    @PostMapping("/app")
+    @PostMapping
     @RequireRole(Authority.ALL)
     public ResponseEntity<TokenResponse> generateToken(@RequestBody @Valid LoginRequest request) {
 
