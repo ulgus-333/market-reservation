@@ -33,7 +33,7 @@ public class UserController {
     })
     @GetMapping("/my")
     @RequireRole({Authority.USER, Authority.ADMIN, Authority.CONSOLE})
-    public ResponseEntity<UserDetailResponse> fetchUserDetails(@Authenticated AppRequestUser requestUser) {
+    public ResponseEntity<UserDetailResponse> fetchUserDetails(@Authenticated RequestUser requestUser) {
 
         return ResponseEntity.ok(userAggregateService.fetchUserDetails(requestUser));
     }

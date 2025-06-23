@@ -8,7 +8,7 @@ public record UserAdditionalDetailResponse (
         String phone,
         String nickname,
         String birth
-) {
+) implements AdditionalDetailResponse {
     public static UserAdditionalDetailResponse from(UserIdentifyEntity userIdentify) {
         return new UserAdditionalDetailResponse(
                 CryptoExecutor.decrypt(userIdentify.getName()),
