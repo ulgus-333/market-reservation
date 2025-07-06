@@ -22,7 +22,7 @@ public class ConsoleIdentifyEntity extends BaseDatetimeEntity {
     @JoinColumn(name = "user_idx")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_idx")
     private DepartmentEntity department;
 

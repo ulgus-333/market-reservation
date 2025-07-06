@@ -26,4 +26,8 @@ public interface RequestUser extends SecurityPrincipal {
     default Long getIdxAsLong() {
         return Long.parseLong(getIdx());
     }
+
+    default Long getMarketIdx() {
+        return null;
+    }
 }

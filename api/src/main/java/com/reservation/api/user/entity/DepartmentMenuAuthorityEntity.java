@@ -18,11 +18,11 @@ public class DepartmentMenuAuthorityEntity extends BaseExecutorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_idx")
     private DepartmentEntity department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_idx")
     private MenuEntity menu;
 
