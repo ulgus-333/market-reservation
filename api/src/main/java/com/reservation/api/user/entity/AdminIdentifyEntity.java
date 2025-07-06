@@ -23,11 +23,11 @@ public class AdminIdentifyEntity extends BaseDatetimeEntity {
     @JoinColumn(name = "user_idx")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_idx")
     private MarketEntity market;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_idx")
     private DepartmentEntity department;
 

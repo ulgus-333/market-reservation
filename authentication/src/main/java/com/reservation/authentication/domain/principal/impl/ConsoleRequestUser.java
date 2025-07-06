@@ -34,4 +34,9 @@ public class ConsoleRequestUser implements RequestUser {
                 .add(HttpHeaderUtils.XHeaders.USER_IDX, this.userIdx)
                 .build();
     }
+
+    @Override
+    public Long getMarketIdx() {
+        return 0L;
+    }
 }
