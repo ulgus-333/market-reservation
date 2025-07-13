@@ -1,7 +1,8 @@
-package com.reservation.api.user.application.service;
+package com.reservation.api.market.application.service;
 
 import com.reservation.api.market.entity.MarketEntity;
-import com.reservation.api.user.repository.MarketEntityRepository;
+import com.reservation.api.market.repository.MarketEntityRepository;
+import com.reservation.authentication.domain.principal.RequestUser;
 import com.reservation.common.error.exception.BusinessException;
 import com.reservation.common.error.type.NotFoundType;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MarketAggregateService {
     private final MarketEntityRepository marketEntityRepository;
+
+    public MarketEntity findUserMarketById(RequestUser requestUser) {
+        return requestUser.getAuthority().isAdmin()
+                ? findByIdOrElseThrow(requestUser.getMarketIdx())
+                : MarketEntity.console();
+    }
 
     public MarketEntity findByIdOrElseThrow(Long marketIdx) {
         return marketEntityRepository.findById(marketIdx)

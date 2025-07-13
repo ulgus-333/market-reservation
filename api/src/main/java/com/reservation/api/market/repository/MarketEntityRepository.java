@@ -1,4 +1,4 @@
-package com.reservation.api.user.repository;
+package com.reservation.api.market.repository;
 
 import com.reservation.api.market.entity.MarketEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

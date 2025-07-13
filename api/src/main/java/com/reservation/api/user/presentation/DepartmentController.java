@@ -2,6 +2,8 @@ package com.reservation.api.user.presentation;
 
 import com.reservation.api.user.application.service.DepartmentAggregateService;
 import com.reservation.api.user.presentation.dto.request.DepartmentCommandRequest;
+import com.reservation.api.user.presentation.dto.request.DepartmentsQueryRequest;
+import com.reservation.api.user.presentation.dto.response.DepartmentsResponse;
 import com.reservation.authentication.domain.annotation.Authenticated;
 import com.reservation.authentication.domain.annotation.RequireRole;
 import com.reservation.authentication.domain.principal.RequestUser;
@@ -13,29 +15,40 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "부서 관련 기본 CRUD", description = "관리자, 백오피스 유저의 부서와 관련된 기본 CRUD 기능 제공")
 @RequiredArgsConstructor
+@RequireRole({Authority.ADMIN, Authority.CONSOLE})
 @RequestMapping("/departments")
 @RestController
 public class DepartmentController {
     private final DepartmentAggregateService departmentAggregateService;
 
-    @Operation(summary = "부서 등록", description = "관리자가 소속한 상점의 부서 등록")
+    @Operation(summary = "부서 등록", description = "관리자, 백오피스 유저가 소속한 상점의 부서 등록")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "404", description = "상점 정보 없음"),
+            @ApiResponse(responseCode = "409", description = "동일한 부서 명칭 존재")
     })
     @PostMapping
-    @RequireRole({Authority.ADMIN, Authority.CONSOLE})
     public ResponseEntity<Void> registerMarketDepartment(@Authenticated RequestUser requestUser,
                                                          @RequestBody @Valid DepartmentCommandRequest commandRequest) {
 
         departmentAggregateService.registerDepartment(requestUser, commandRequest);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "부서 목록 조회", description = "관리자, 백오피스 유저가 소속한 상점의 페이징 목록 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공(목록이 없을 경우 포함)"),
+            @ApiResponse(responseCode = "404", description = "상점 정보 없음")
+    })
+    @GetMapping
+    public ResponseEntity<DepartmentsResponse> fetchDepartments(@Authenticated RequestUser requestUser,
+                                                                @ModelAttribute @Valid DepartmentsQueryRequest queryRequest) {
+
+        return ResponseEntity.ok(departmentAggregateService.fetchDepartments(requestUser, queryRequest));
     }
 }
