@@ -13,6 +13,7 @@ public enum InternalServerErrorType implements ErrorType {
     INVALID_REDIS_KEY_PARAMETERS(3, "Redis 키 생성을 위한 파라미터가 올바르지 않습니다."),
     FAILED_TO_ENCRYPT_VALUE(4, "개인정보 암호화에 실패했습니다."),
     FAILED_TO_DECRYPT_VALUE(5, "개인정보 복호화에 실패했습니다."),
+    USER_IDX_MUST_NOT_BE_EMPTY(6, "유저 정보를 조회하기 위해서는 인덱스 목록이 반드시 필요합니다."),
     ;
 
     private final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
