@@ -38,8 +38,8 @@ public class DepartmentsQueryRequest extends PagingRequest {
     @RequiredArgsConstructor
     enum DepartmentOrderFields {
         NAME("name"),
-        REGISTRATION_DATETIME("reg_datetime"),
-        MODIFICATION_DATETIME("mod_datetime"),
+        REGISTRATION_DATETIME("regDatetime"),
+        MODIFICATION_DATETIME("modDatetime"),
         ;
 
         private static final Map<String, DepartmentOrderFields> MAPPER;

@@ -15,10 +15,9 @@ public class DepartmentsResponse {
             return new DepartmentsResponse(Page.empty());
         }
 
-        Page<DepartmentResponse> response = entities.map(entity -> DepartmentResponse.of(
-                entity,
-                nameMapper.getDecryptNameOrBlank(entity.getRegIdx()),
-                nameMapper.getDecryptNameOrBlank(entity.getModIdx())));
+        Page<DepartmentResponse> response = entities
+                .map(entity -> DepartmentResponse.of(entity, nameMapper)
+        );
 
         return new DepartmentsResponse(response);
     }
