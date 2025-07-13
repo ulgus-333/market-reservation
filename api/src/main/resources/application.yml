@@ -44,3 +44,7 @@ springdoc:
 
 crypto:
   secret-key: CGZH43ikdJ18IN1OeJfRlg==
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
