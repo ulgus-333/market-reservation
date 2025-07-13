@@ -29,19 +29,15 @@ public class ConsoleIdentifyEntity extends BaseDatetimeEntity {
     @Column(nullable = false, length = 20)
     private String position;
 
-    @Column(nullable = false, length = 50)
-    private String name;
-
     private ConsoleIdentifyEntity(RoleEntity role, String id, String password, DepartmentEntity department, String position, String name, String email, LocalDateTime regDatetime) {
-        this(null, UserEntity.create(role, id, password, email, regDatetime), department, position, name, regDatetime);
+        this(null, UserEntity.create(role, id, password, name, email, regDatetime), department, position, regDatetime);
     }
 
-    private ConsoleIdentifyEntity(Long userIdx, UserEntity user, DepartmentEntity department, String position, String name, LocalDateTime regDatetime) {
+    private ConsoleIdentifyEntity(Long userIdx, UserEntity user, DepartmentEntity department, String position, LocalDateTime regDatetime) {
         super(regDatetime);
         this.userIdx = userIdx;
         this.user = user;
         this.department = department;
         this.position = position;
-        this.name = name;
     }
 }

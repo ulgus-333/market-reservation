@@ -27,9 +27,6 @@ public class UserIdentifyEntity extends BaseDatetimeEntity {
     private UserEntity user;
 
     @Column(nullable = false, length = 50)
-    private String name;
-
-    @Column(nullable = false, length = 50)
     private String phone;
 
     @Column(nullable = false, length = 50)
@@ -57,14 +54,13 @@ public class UserIdentifyEntity extends BaseDatetimeEntity {
     }
 
     private UserIdentifyEntity(RoleEntity role, String id, String password, String name, String phone, String email, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
-        this(null, UserEntity.create(role, id, password, email, regDatetime), name, phone, nickname, gender, birth, ci, di, registerType, regDatetime);
+        this(null, UserEntity.create(role, id, password, name, email, regDatetime), phone, nickname, gender, birth, ci, di, registerType, regDatetime);
     }
 
-    private UserIdentifyEntity(Long userIdx, UserEntity user, String name, String phone, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
+    private UserIdentifyEntity(Long userIdx, UserEntity user, String phone, String nickname, GenderType gender, String birth, String ci, String di, RegisterType registerType, LocalDateTime regDatetime) {
         super(regDatetime);
         this.userIdx = userIdx;
         this.user = user;
-        this.name = name;
         this.phone = phone;
         this.nickname = nickname;
         this.gender = gender;
