@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,5 +28,11 @@ public class BaseExecutorEntity extends BaseDatetimeEntity {
     public void updateMetaFields(Long modIdx, LocalDateTime requestDatetime) {
         super.updateModDatetime(requestDatetime);
         this.modIdx = modIdx;
+    }
+
+    public Set<Long> idxes() {
+        return Stream.of(this.regIdx, this.modIdx)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 }

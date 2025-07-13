@@ -21,9 +21,10 @@ public enum NotFoundType implements ErrorType {
     //=====================================================
     NOT_FOUND_USER_DATA(100, "유저정보를 찾을 수 없습니다."),
     NOT_FOUND_VERIFICATION_DATA(101, "인증번호의 유효시간이 만료되어 정보를 찾을 수 없습니다."),
+    NOT_FOUND_DEPARTMENT_DATA(102, "부서정보를 찾을 수 없습니다."),
 
     //=====================================================
-    // API Module - user (500 - 999)
+    // API Module - market (500 - 999)
     //=====================================================
     NOT_FOUND_MARKET_DATA(500, "상점 정보를 찾을 수 없습니다."),
     ;

@@ -6,6 +6,7 @@ import com.reservation.api.user.application.dto.UserNameMapper;
 import com.reservation.api.user.entity.DepartmentEntity;
 import com.reservation.api.user.presentation.dto.request.DepartmentCommandRequest;
 import com.reservation.api.user.presentation.dto.request.DepartmentsQueryRequest;
+import com.reservation.api.user.presentation.dto.response.DepartmentResponse;
 import com.reservation.api.user.presentation.dto.response.DepartmentsResponse;
 import com.reservation.api.user.repository.DepartmentEntityRepository;
 import com.reservation.api.user.repository.custom.DepartmentCustomRepository;
@@ -13,16 +14,17 @@ import com.reservation.api.user.repository.dto.query.DepartmentsQueryDto;
 import com.reservation.authentication.domain.principal.RequestUser;
 import com.reservation.common.error.exception.BusinessException;
 import com.reservation.common.error.type.ConflictType;
+import com.reservation.common.error.type.NotFoundType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class DepartmentAggregateService {
     private final UserAggregateService userAggregateService;
@@ -30,6 +32,7 @@ public class DepartmentAggregateService {
     private final DepartmentEntityRepository departmentEntityRepository;
     private final DepartmentCustomRepository departmentCustomRepository;
 
+    @Transactional
     public void registerDepartment(RequestUser requestUser, DepartmentCommandRequest commandRequest) {
         MarketEntity market = marketAggregateService.findUserMarketById(requestUser);
 
@@ -49,12 +52,21 @@ public class DepartmentAggregateService {
         Page<DepartmentEntity> departments = departmentCustomRepository.pagingSearchByQueryDto(queryDto);
 
         Set<Long> userIdxes = departments.stream()
-                .flatMap(department -> Stream.of(department.getRegIdx(), department.getModIdx()))
-                .filter(Objects::nonNull)
+                .flatMap(department -> department.idxes().stream())
                 .collect(Collectors.toSet());
 
         UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
 
         return DepartmentsResponse.from(departments, userNameMapper);
+    }
+
+    public DepartmentResponse fetchDepartment(RequestUser requestUser, Long departmentIdx) {
+        DepartmentEntity department = departmentEntityRepository.findByIdxAndMarketIdx(departmentIdx, requestUser.getMarketIdx())
+                .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_DEPARTMENT_DATA));
+
+        Set<Long> userIdxes = department.idxes();
+        UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
+
+        return DepartmentResponse.of(department, userNameMapper);
     }
 }
