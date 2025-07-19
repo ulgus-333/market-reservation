@@ -44,6 +44,11 @@ public class DepartmentEntity extends BaseExecutorEntity {
                 .build();
     }
 
+    public void update(String name, LocalDateTime modDatetime, Long modIdx) {
+        this.name = name;
+        super.updateMetaFields(modIdx, modDatetime);
+    }
+
     public boolean isConsoleDepartment() {
         return this.market.isConsoleMarket();
     }

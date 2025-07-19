@@ -84,4 +84,18 @@ public class DepartmentAggregateService {
 
         departmentEntityRepository.delete(department);
     }
+
+    @Transactional
+    public void modifyDepartment(RequestUser requestUser, Long departmentIdx, DepartmentCommandRequest commandRequest) {
+        MarketEntity market = marketAggregateService.findUserMarketById(requestUser);
+
+        if (departmentEntityRepository.existsByMarketIdxAndName(market.getIdx(), commandRequest.getName())) {
+            throw new BusinessException(ConflictType.DEPARTMENT_NAME_EXISTS);
+        }
+
+        DepartmentEntity department = departmentEntityRepository.findByIdxAndMarketIdx(departmentIdx, market.getIdx())
+                .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_DEPARTMENT_DATA));
+
+        department.update(commandRequest.getName(), commandRequest.getRequestDatetime(), requestUser.getIdxAsLong());
+    }
 }
