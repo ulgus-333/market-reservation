@@ -81,4 +81,8 @@ public class MarketEntity extends BaseExecutorEntity {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public boolean isConsoleMarket() {
+        return this.idx == 1;
+    }
 }
