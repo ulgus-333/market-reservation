@@ -70,4 +70,12 @@ public class UserAggregateService {
 
         return UserNameMapper.from(userEntities);
     }
+
+    public boolean existsConsoleUserMatchingDepartment(Long departmentIdx) {
+        return consoleIdentifyEntityRepository.existsByDepartmentIdx(departmentIdx);
+    }
+
+    public boolean existsAdminUserMatchingDepartment(Long departmentIdx) {
+        return adminIdentifyEntityRepository.existsByDepartmentIdx(departmentIdx);
+    }
 }

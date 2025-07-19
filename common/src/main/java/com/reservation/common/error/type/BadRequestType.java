@@ -26,6 +26,7 @@ public enum BadRequestType implements ErrorType {
     INVALID_GENDER_TYPE_VALUE(103, "올바르지 않은 성별 값입니다."),
     INVALID_USER_REGISTER_TYPE_CODE(104, "올바르지 않은 유저가입 형태 코드입니다."),
     INVALID_USER_REGISTER_TYPE_VALUE(105, "올바르지 않은 유저가입 형태 값입니다."),
+    CANNOT_DELETE_USING_DEPARTMENT(106, "사용중인 부서는 삭제할 수 없습니다."),
     ;
 
     private final HttpStatus status = HttpStatus.BAD_REQUEST;
