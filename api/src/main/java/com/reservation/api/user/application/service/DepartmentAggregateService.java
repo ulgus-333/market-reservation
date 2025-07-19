@@ -46,14 +46,12 @@ public class DepartmentAggregateService {
     }
 
     public DepartmentsResponse fetchDepartments(RequestUser requestUser, DepartmentsQueryRequest queryRequest) {
-        MarketEntity market = marketAggregateService.findUserMarketById(requestUser);
-
-        DepartmentsQueryDto queryDto = queryRequest.toQueryDto(market.getIdx());
+        DepartmentsQueryDto queryDto = queryRequest.toQueryDto(requestUser.getMarketIdx());
 
         Page<DepartmentEntity> departments = departmentCustomRepository.pagingSearchByQueryDto(queryDto);
 
         Set<Long> userIdxes = departments.stream()
-                .flatMap(department -> department.idxes().stream())
+                .flatMap(department -> department.metaIdxes().stream())
                 .collect(Collectors.toSet());
 
         UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
@@ -65,7 +63,7 @@ public class DepartmentAggregateService {
         DepartmentEntity department = departmentEntityRepository.findByIdxAndMarketIdx(departmentIdx, requestUser.getMarketIdx())
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_DEPARTMENT_DATA));
 
-        Set<Long> userIdxes = department.idxes();
+        Set<Long> userIdxes = department.metaIdxes();
         UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
 
         return DepartmentResponse.of(department, userNameMapper);
