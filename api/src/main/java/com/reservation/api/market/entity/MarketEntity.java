@@ -54,12 +54,6 @@ public class MarketEntity extends BaseExecutorEntity {
     @Column(nullable = false)
     private Double longitude;
 
-    public static MarketEntity console() {
-        return MarketEntity.builder()
-                .idx(0L)
-                .build();
-    }
-
     public MarketEntity(String name, String identificationNumber, String representativeName, String representativePhone, String regionCode, String cityDistrictCode, String townCode, String villageCode, String landAddress, String roadAddress, Double latitude, Double longitude, LocalDateTime regDatetime, Long regIdx) {
         this(null, name, identificationNumber, representativeName, representativePhone, regionCode, cityDistrictCode, townCode, villageCode, landAddress, roadAddress, latitude, longitude, regDatetime, regIdx);
     }
@@ -80,5 +74,9 @@ public class MarketEntity extends BaseExecutorEntity {
         this.roadAddress = roadAddress;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public boolean isConsoleMarket() {
+        return this.idx == 1;
     }
 }

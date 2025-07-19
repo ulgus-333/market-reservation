@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AdminIdentifyEntityRepository extends JpaRepository<AdminIdentifyEntity, Long> {
+    boolean existsByDepartmentIdx(Long departmentIdx);
 }

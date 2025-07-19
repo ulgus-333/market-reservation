@@ -37,6 +37,6 @@ public class ConsoleRequestUser implements RequestUser {
 
     @Override
     public Long getMarketIdx() {
-        return 0L;
+        return 1L;
     }
 }

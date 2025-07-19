@@ -30,7 +30,7 @@ public class BaseExecutorEntity extends BaseDatetimeEntity {
         this.modIdx = modIdx;
     }
 
-    public Set<Long> idxes() {
+    public Set<Long> metaIdxes() {
         return Stream.of(this.regIdx, this.modIdx)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());

@@ -14,9 +14,7 @@ public class MarketAggregateService {
     private final MarketEntityRepository marketEntityRepository;
 
     public MarketEntity findUserMarketById(RequestUser requestUser) {
-        return requestUser.getAuthority().isAdmin()
-                ? findByIdOrElseThrow(requestUser.getMarketIdx())
-                : MarketEntity.console();
+        return findByIdOrElseThrow(requestUser.getMarketIdx());
     }
 
     public MarketEntity findByIdOrElseThrow(Long marketIdx) {

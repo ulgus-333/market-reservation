@@ -43,4 +43,8 @@ public class DepartmentEntity extends BaseExecutorEntity {
                 .regIdx(regIdx)
                 .build();
     }
+
+    public boolean isConsoleDepartment() {
+        return this.market.isConsoleMarket();
+    }
 }

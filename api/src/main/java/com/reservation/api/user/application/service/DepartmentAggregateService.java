@@ -13,6 +13,7 @@ import com.reservation.api.user.repository.custom.DepartmentCustomRepository;
 import com.reservation.api.user.repository.dto.query.DepartmentsQueryDto;
 import com.reservation.authentication.domain.principal.RequestUser;
 import com.reservation.common.error.exception.BusinessException;
+import com.reservation.common.error.type.BadRequestType;
 import com.reservation.common.error.type.ConflictType;
 import com.reservation.common.error.type.NotFoundType;
 import lombok.RequiredArgsConstructor;
@@ -45,14 +46,12 @@ public class DepartmentAggregateService {
     }
 
     public DepartmentsResponse fetchDepartments(RequestUser requestUser, DepartmentsQueryRequest queryRequest) {
-        MarketEntity market = marketAggregateService.findUserMarketById(requestUser);
-
-        DepartmentsQueryDto queryDto = queryRequest.toQueryDto(market.getIdx());
+        DepartmentsQueryDto queryDto = queryRequest.toQueryDto(requestUser.getMarketIdx());
 
         Page<DepartmentEntity> departments = departmentCustomRepository.pagingSearchByQueryDto(queryDto);
 
         Set<Long> userIdxes = departments.stream()
-                .flatMap(department -> department.idxes().stream())
+                .flatMap(department -> department.metaIdxes().stream())
                 .collect(Collectors.toSet());
 
         UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
@@ -64,9 +63,25 @@ public class DepartmentAggregateService {
         DepartmentEntity department = departmentEntityRepository.findByIdxAndMarketIdx(departmentIdx, requestUser.getMarketIdx())
                 .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_DEPARTMENT_DATA));
 
-        Set<Long> userIdxes = department.idxes();
+        Set<Long> userIdxes = department.metaIdxes();
         UserNameMapper userNameMapper = userAggregateService.generateUserNameMapper(userIdxes);
 
         return DepartmentResponse.of(department, userNameMapper);
+    }
+
+    @Transactional
+    public void deleteDepartment(RequestUser requestUser, Long departmentIdx) {
+        DepartmentEntity department = departmentEntityRepository.findByIdxAndMarketIdx(departmentIdx, requestUser.getMarketIdx())
+                .orElseThrow(() -> new BusinessException(NotFoundType.NOT_FOUND_DEPARTMENT_DATA));
+
+        boolean existsMatchingUser = department.isConsoleDepartment()
+                ? userAggregateService.existsConsoleUserMatchingDepartment(departmentIdx)
+                : userAggregateService.existsAdminUserMatchingDepartment(departmentIdx);
+
+        if (existsMatchingUser) {
+            throw new BusinessException(BadRequestType.CANNOT_DELETE_USING_DEPARTMENT);
+        }
+
+        departmentEntityRepository.delete(department);
     }
 }
