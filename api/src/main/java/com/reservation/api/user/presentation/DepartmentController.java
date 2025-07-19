@@ -83,4 +83,20 @@ public class DepartmentController {
 
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "부서 수정", description = "부서 상세정보 수정")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "404", description = "대상 부서정보 없음"),
+            @ApiResponse(responseCode = "409", description = "중복되는 부서이름")
+    })
+    @PatchMapping("/{departmentIdx}")
+    public ResponseEntity<Void> modifyDepartment(@Schema(hidden = true) @Authenticated RequestUser requestUser,
+                                                 @PathVariable("departmentIdx") Long departmentIdx,
+                                                 @RequestBody @Valid DepartmentCommandRequest commandRequest) {
+
+        departmentAggregateService.modifyDepartment(requestUser, departmentIdx, commandRequest);
+
+        return ResponseEntity.ok().build();
+    }
 }
